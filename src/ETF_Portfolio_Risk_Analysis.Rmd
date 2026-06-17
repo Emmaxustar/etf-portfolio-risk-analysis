@@ -1,0 +1,1657 @@
+---
+title: "Econ 424 Project Spring 2026"
+author: "Emma Xu"
+date: "Jun 10, 2026"
+output:
+  pdf_document:
+    toc: true
+    toc_depth: 2
+    number_sections: true
+  html_document:
+    toc: true
+    toc_depth: '3'
+    df_print: paged
+---
+
+# Table of Contents
+
+0. Executive Summary
+
+1. Return calculations and Sample Statistics 
+
+2. Value-at-Risk Calculations
+
+3. Rolling Sample Statistics
+
+4. Portfolio Theory with 5 Vanguard ETFs 
+
+5. Portfolio Theory with 4 Stock ETFs
+
+6. Risk Budgeting 
+
+7. Asset Allocation
+
+# Executive Summary
+
+## Data Set
+
+This project analyzes five ETFs: SPYM, VEA, VWO, JCPB, and SPSM. The data are monthly prices and monthly simple returns from May 2021 to April 2026. SPYM, VEA, VWO, and SPSM are stock ETFs, while JCPB is a bond ETF.
+
+## ETF Descriptions
+
+**SPYM: SPDR Portfolio S&P 500 ETF**  
+SPYM is a U.S. stock ETF and it follows the S&P 500 Index. This index includes many large companies in U.S. stock market. So SPYM gives investors exposure to large U.S. companies. The main risk of SPYM is stock market risk. If U.S. stock market goes down, SPYM can also lose value. But since it holds many companies from different industries, it can give some diversification inside U.S. large-cap stocks.
+
+**VEA: Vanguard FTSE Developed Markets ETF**  
+VEA is an international stock ETF and it focuses on developed markets outside the U.S.. For example, it includes stocks from Europe, Canada, and Pacific region. VEA can help investors diversify outside U.S. market. But it still has stock market risk. It also has foreign market risk and currency risk because the companies are from other countries.
+
+**VWO: Vanguard FTSE Emerging Markets ETF**  
+VWO is an emerging market stock ETF. It invests in stocks from developing countries and emerging markets. These markets may have more growth potential, but they are also more risky. The risks include political risk, currency risk, and economic risk. VWO can help diversification since emerging markets may not move exactly same as U.S. stocks or developed market stocks.
+
+**JCPB: JPMorgan Core Plus Bond ETF**  
+JCPB is a bond ETF and JCPB invests in different types of debt securities. The main goal of JCPB is to provide income. Since it is a bond fund, the main risks are interest rate risk and credit risk. If interest rates go up, bond prices can go down. JCPB can help diversify a portfolio because bonds usually behave different from stocks.
+
+**SPSM: SPDR Portfolio S&P 600 Small Cap ETF**  
+SPSM is a U.S. small-cap stock ETF and follows the S&P SmallCap 600 Index. This means it represents some smaller U.S. companies. Some small-cap stocks can have higher growth potential, but they are usually more risky and more volatile than large-cap stocks. SPSM can add diversification inside U.S. stocks because it focuses on different size group of companies.
+
+## Main Findings
+
+* **Price and Return Pattern:**  
+From the price and return plots, we can see the stock ETFs move more than the bond ETF. Most ETFs had clear negative returns around 2022. After 2023, the stock ETFs started to recover. JCPB is smoother because it is a bond ETF, but it still went down when interest rates increased.
+
+* **Normality and Stationarity:**  
+From the several plots, the monthly returns do not look perfectly normal. The QQ plots show some tail deviation, and the boxplots show some outliers. So it is approximately like a normal distribution model. The rolling means, rolling volatilities, and rolling correlation also change over time. This means that covariance stationarity does not look very strong in this data.
+
+* **Risk and Return Statistics:**  
+From the basic statistics, we can see that SPYM has the highest average monthly return about 1.11%. JCPB has the lowest average monthly return about 0.11%. SPSM has the highest standard deviation, so it is the most risky ETF. JCPB has the lowest standard deviation, so it is the least risky ETF.
+
+* **Sharpe Ratio:**  
+The Sharpe ratio results show that SPYM has the highest Sharpe ratio, and JCPB has the lowest Sharpe ratio. This means SPYM performed the best after adjusting for risk in this sample. But the bootstrap standard errors and confidence intervals are large, so the Sharpe ratios are not estimated very precisely.
+
+* **Correlation and Diversification:**  
+The correlation matrix and scatterplots show that all ETFs are positively correlated. SPYM and SPSM have the highest correlation, and VWO and SPSM have the lowest correlation. Since all correlations are positive, diversification can reduce some risk, but it's limited. If some correlations were negative, diversification would be stronger.
+
+* **Value-at-Risk:**  
+The VaR results show that SPSM has the largest downside risk, and JCPB has the smallest downside risk. This is as same as the volatility results, since SPSM is the most volatile and JCPB is the least volatile. The empirical VaR and normal VaR are very close but not exactly same, since empirical VaR does not assume as normal return.
+
+* **Portfolio Theory with 5 ETFs:**  
+For the 5 ETF portfolio theory part, the equally weighted portfolio gives some diversification but the Sharpe ratio is not very high. The GMV portfolio with short sales has negative weights and a large weight in JCPB, so it uses short positions and leverage. One problem is that its expected return is lower than the risk-free rate. It takes risk but the expected return is worse than risk-free asset. The no-short GMV portfolio becomes 100% JCPB because JCPB has the lowest volatility.
+
+* **Portfolio Theory with 4 Stock ETFs:**  
+For the 4 stock ETFs portfolio theory part, both return and risk are higher than the 5 ETF portfolio. The 4-stock GMV portfolio with short sales has negative weights. The no-short GMV portfolio invests about 43.7% in SPYM and 56.3% in VWO. The tangency portfolio with short sales has large long and short positions, so it has high Sharpe ratio. The no-short tangency portfolio is 100% SPYM, which means that when short sales are not allowed, SPYM gives the strongest return after adjusting for risk.
+
+* **Risk Budgeting:**  
+The risk budgeting result shows that equal dollar allocation is not same as equal risk allocation. In the 4-stock equally weighted portfolio, each ETF has 25% weight, but their risk contributions are different. SPSM contributes the most risk, about 30%, and VWO contributes the least risk, about 20.4%. So the risk attribution does not exactly match the asset allocation.
+
+* **Asset Allocation and Target Return:**  
+In the asset allocation section, by using only the 4 stock ETFs with no short sales, the efficient portfolio for 1% monthly target return invests about 81.0% in SPYM and 19.0% in VWO. The monthly SD is about 4.2%. After adding the risk-free asset, the portfolio invests about 85.3% in SPYM and 14.7% in risk-free asset, and the monthly SD decreases to about 3.8%. So the risk-free asset helps to reach same target return with lower risk. A 1.5% monthly target return is not possible with only the no-short 4 stock ETFs, because the highest ETF return is SPYM, about 1.11%.
+
+```{r, echo = FALSE, warning = FALSE }
+options(digits=3, width=70)
+# load packages
+suppressPackageStartupMessages(library(IntroCompFinR))
+suppressPackageStartupMessages(library(PerformanceAnalytics))
+suppressPackageStartupMessages(library(quantmod))
+suppressPackageStartupMessages(library(boot))
+suppressPackageStartupMessages(library(corrplot))
+suppressPackageStartupMessages(library(xtable))
+suppressPackageStartupMessages(library(knitr))
+suppressPackageStartupMessages(library(lubridate))
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(gridExtra))
+
+# change this to the appropriate path on your computer
+savePath="C:\\Users\\ezivot\\Dropbox\\econ424\\spring2026\\Project\\"
+resetPar = par()
+```
+
+
+```{r, echo=FALSE, warning = FALSE }
+# retrieve data for questions
+last.date = as.Date("2026-04-30")
+# last.date = Sys.Date()
+first.date = last.date - years(5)
+project.symbols = c("SPYM","VEA","VWO","JCPB", "SPSM")
+project.prices <- 
+  getSymbols(project.symbols, src = 'yahoo', 
+             from = as.character(first.date), 
+             to = as.character(last.date),
+             auto.assign = TRUE, 
+             warnings = FALSE)%>% 
+  map(~Ad(get(.)))%>% 
+  reduce(merge)%>%
+  `colnames<-`(project.symbols)
+projectPrices = to.monthly(project.prices, OHLC=FALSE)
+```
+
+```{r, echo=FALSE, warning = FALSE }
+# calculate simple returns
+projectReturns = na.omit(Return.calculate(projectPrices, method = "discrete"))
+ret.mat = coredata(projectReturns)
+```
+
+
+# Analysis of Questions
+
+## Return Calculations and Sample Statistics
+
+### Monthly Prices and Simple Returns
+
+```{r, echo = FALSE}
+grid.arrange(
+  autoplot(projectPrices[, "SPYM"]),
+  autoplot(projectPrices[, "VEA"]),
+  autoplot(projectPrices[, "VWO"]),
+  autoplot(projectPrices[, "JCPB"]),
+  autoplot(projectPrices[, "SPSM"]),
+  nrow=3
+)
+```
+
+Plot returns:
+
+```{r, echo = FALSE}
+grid.arrange(
+  autoplot(projectReturns[, "SPYM"]),
+  autoplot(projectReturns[, "VEA"]),
+  autoplot(projectReturns[, "VWO"]),
+  autoplot(projectReturns[, "JCPB"]),
+  autoplot(projectReturns[, "SPSM"]),
+  nrow=3
+)
+```
+
+The monthly price plots show that most ETFs dropped around 2022, and then started to recover after 2023. The stock ETFs, including SPYM, VEA, VWO, and SPSM, mostly went up near the end of the sample period. SPYM and SPSM had a stronger recovery after the 2022 decline. VWO also recovered, but its path is not very smooth. JCPB is the bond ETF, so its price movement is more stable than the stock ETFs. But it still dropped during 2022 and 2023.
+
+The monthly return plots show this pattern more clearly. The stock ETFs have bigger monthly up and down movements than JCPB. SPYM, VEA, VWO, and SPSM all have some large positive and negative monthly returns. SPSM and VWO seem to have some of the biggest movements. This makes sense because small-cap stocks and emerging market stocks are usually more risky. JCPB has smaller monthly returns overall, but it still has some negative months.
+
+The large negative returns around 2022 may be related to the overall market decline during that time. Inflation was high, and the Federal Reserve raised interest rates quickly. This hurt the stock market, and also hurt bond prices. This can explain why JCPB also declined. The stronger returns after 2023 may be related to market recovery and investors became more positive about inflation and interest rates.
+
+### Growth of One Dollar
+
+```{r, echo = FALSE}
+chart.CumReturns(projectReturns, wealth.index=TRUE, legend.loc="topleft", 
+                 lwd=2, main="Growth of $1")
+```
+
+The growth of $1 plot shows that SPYM has the highest final value at the end of the five-year period. A $1 investment in SPYM grows to a little above $1.80 by April 2026. VEA is the second highest, ending around $1.55. SPSM and VWO also grow during the full period, but not as much as SPYM and VEA. JCPB has the lowest final value and stays close to $1.05. This means JCPB had much lower growth in this sample period. I am not very surprised by this result. SPYM tracks large U.S. stocks, and U.S. large-cap stocks performed well in this period, especially after the 2022 decline. JCPB is a bond ETF, so I would expect it to have lower return and lower growth than the stock ETFs.
+
+One thing a little interesting is that VEA did better than SPSM and VWO in this sample. Small-cap stocks and emerging market stocks are usually more risky, and sometimes people expect them to have higher return. But in this five-year period, they did not perform as well as VEA. This shows that higher risk does not always mean higher realized return in a specific period.
+
+### Four-Panel Diagnostic Plots
+
+```{r, echo = FALSE}
+fourPanelPlot(projectReturns[, "SPYM", drop=FALSE])
+fourPanelPlot(projectReturns[, "VEA", drop=FALSE])
+fourPanelPlot(projectReturns[, "VWO", drop=FALSE])
+fourPanelPlot(projectReturns[, "JCPB", drop=FALSE])
+fourPanelPlot(projectReturns[, "SPSM", drop=FALSE])
+```
+
+### Group Boxplot of Monthly Returns
+
+```{r, echo = FALSE}
+boxplot(coredata(projectReturns), main="ETF Monthly Returns", col="cornflowerblue")
+```
+
+The four-panel plots show that the ETF returns are not perfectly normal. Some histograms look close to bell-shaped, but the QQ plots show that the points do not stay exactly on the straight line. This is more clear in the tails. So the normal distribution is only an approximation for these returns. The stock ETFs also have more extreme monthly returns than JCPB, so their tails look heavier. There are some outliers in the data. From the boxplots, VWO has a clear positive outlier, and the stock ETFs also have some large positive and negative monthly returns. SPSM and VWO seem to have wider return ranges than the other ETFs. JCPB has a much smaller range. This makes sense because JCPB is a bond ETF, so it is usually less volatile than stock ETFs.
+
+The ACF plots do not show strong evidence of linear time dependence. Most autocorrelations after lag 0 are inside the blue confidence bands. This suggests that monthly returns are not very predictable from past returns. There are a few small spikes, but overall the autocorrelation looks weak.
+
+The group boxplot also shows that stock ETFs have wider return distributions than JCPB. SPYM, VEA, VWO, and SPSM have larger spreads, while JCPB has the smallest spread. This means JCPB had the lowest monthly volatility in this sample. Among the stock ETFs, SPSM and VWO look more risky because their boxes and whiskers are wider. Overall, the boxplot supports the idea that stock ETFs have higher risk, and the bond ETF is more stable.
+
+### Descriptive Statistics
+
+```{r, echo = FALSE}
+muhat.vals = colMeans(projectReturns)
+muhat.mat = as.matrix(muhat.vals)
+sigmahat.vals = apply(projectReturns, 2, sd)
+skew.vals = apply(projectReturns, 2, skewness)
+ekurt.vals = apply(projectReturns, 2, kurtosis)
+cov.mat = var(projectReturns)
+cor.mat = cov2cor(cov.mat)
+
+covhat.vals = cov.mat[lower.tri(cov.mat)]
+rhohat.vals = cor.mat[lower.tri(cor.mat)]
+names(covhat.vals) <- names(rhohat.vals) <- 
+  c("SPYM,VEA","SPYM,VWO","SPYM,JCPB", "SPYM,SPSM",
+    "VEA,VWO", "VEA,JCPB", "VEA,SPSM", "VWO,JCPB",
+    "VWO,SPSM", "JCPB,SPSM")
+    
+
+# empirical quantiles for VaR calculations
+q.vals = apply(projectReturns, 2, quantile, prob=c(0.01,0.05))
+
+# display results in a table
+stats.mat = rbind(muhat.vals, 
+                  sigmahat.vals,
+                  skew.vals,
+                  ekurt.vals,
+                  q.vals)
+rownames(stats.mat) = c("Mean", "Std Dev", "Skewness", 
+                        "Excess Kurtosis", "1% Quantile", 
+                        "5% Quantile")
+knitr::kable(round(stats.mat, 4), caption = "Descriptive Statistics of Monthly Returns")
+```
+
+The descriptive statistics show that SPYM has the highest average monthly return, about 1.11%. JCPB has the lowest average monthly return, about 0.11%. This makes sense because SPYM is a U.S. stock ETF, and JCPB is a bond ETF. In general, stocks usually have higher return than bonds, but they also have higher risk.
+
+For volatility, SPSM has the highest standard deviation, about 5.72% per month. This means SPSM is the most risky ETF in this sample. JCPB has the lowest standard deviation, about 1.82% per month, so it is the most stable ETF. SPYM, VEA, and VWO are in the middle, but they are still much more volatile than JCPB.
+
+### Risk-Return Plot
+
+```{r, echo=FALSE}
+rf = 0.04/12
+plot(sigmahat.vals, muhat.vals, xlim=c(0, 0.06), ylim=c(-0.001, 0.015),
+     ylab="Expected Return", xlab="Standard Deviation",
+     cex=2, pch=16, col="cornflowerblue")
+points(0, rf, cex=2, pch=16, col="green")
+text(0, rf, labels="Rf", pos=3)
+text(sigmahat.vals, muhat.vals, labels=colnames(projectReturns),
+     pos=3)
+abline(h=0)
+```
+
+The risk-return plot shows that the risk-return relationship is not perfect in this sample. SPYM has the highest average return, but it does not have the highest standard deviation. SPSM has the highest standard deviation, but its average return is lower than SPYM and VEA. This means higher risk did not always give higher realized return during this five-year period. JCPB has both the lowest risk and the lowest return, which is what I expected for a bond ETF.
+
+Compared with the risk-free rate, JCPB has a lower average monthly return than the risk-free rate, even though it still has risk. So from a risk-return view, JCPB does not look very attractive in this sample. SPYM looks the strongest among the risky ETFs because it has the highest average return with only a moderate level of volatility.
+
+For normality, none of the ETFs look perfectly normal. Based on skewness, kurtosis, and QQ plots, JCPB looks closest to normal because its skewness and kurtosis are close to zero, and its QQ plot is closer to the straight line. VWO looks least normal because it has the highest excess kurtosis, a positive outlier, and more clear tail behavior. Overall, normal distribution is useful as an approximation, but it does not fully describe these ETF return distributions.
+
+### Standard Errors and Confidence Intervals for Mean and Standard Deviation
+
+```{r, echo=FALSE}
+n.obs = nrow(projectReturns)
+
+# mean estimates
+mean.est = colMeans(projectReturns)
+se.mean = apply(projectReturns, 2, sd) / sqrt(n.obs)
+lcl.mean = mean.est - 2 * se.mean
+ucl.mean = mean.est + 2 * se.mean
+
+# standard deviation estimates
+sd.est = apply(projectReturns, 2, sd)
+se.sd = sd.est / sqrt(2 * n.obs)
+lcl.sd = sd.est - 2 * se.sd
+ucl.sd = sd.est + 2 * se.sd
+
+mean.sd.ci.table = rbind(
+  Mean = mean.est,
+  SE_Mean = se.mean,
+  LCL_Mean_95 = lcl.mean,
+  UCL_Mean_95 = ucl.mean,
+  SD = sd.est,
+  SE_SD = se.sd,
+  LCL_SD_95 = lcl.sd,
+  UCL_SD_95 = ucl.sd
+)
+
+knitr::kable(round(mean.sd.ci.table, 4), caption = "Standard Errors and 95% Confidence Intervals for Mean and Standard Deviation")
+```
+
+The table shows that the average returns are not estimated very precisely. The standard errors for the means are pretty large compared with the mean estimates. For VEA, VWO, JCPB, and SPSM, the 95% confidence intervals all include zero. This means their average monthly returns are not very certain. So I should be careful if I compare these ETFs only by their sample means.
+
+The standard deviations look more precise than the means. Their standard errors are smaller relative to the SD estimates, and the confidence intervals are tighter. For example, SPYM has a monthly standard deviation around 0.045, and its 95% confidence interval is about 0.037 to 0.053. This gives a much clearer estimate than the confidence interval for the mean.
+
+Overall, the average returns are harder to estimate, but the standard deviations are more reliable. This makes sense because monthly returns move around a lot, and the sample only has 60 months. So in this part, the volatility estimates are more useful than the mean return estimates.
+
+### Sharpe Ratios and Bootstrap Standard Errors
+
+The following code shows how to bootstrap the Sharpe ratios and organize results. The code uses a normal bootstrap confidence interval. That may or may not be appropriate. 
+
+```{r, echo=FALSE}
+SharpeRatios = (muhat.vals - rf)/sigmahat.vals
+SharpeRatios = as.matrix(SharpeRatios, ncol=1)
+
+sharpeRatio.boot = function(x, idx, risk.free) {
+  muhat = mean(x[idx])
+  sigmahat = sd(x[idx])
+  sharpeRatio = (muhat - risk.free)/sigmahat
+  sharpeRatio
+}
+computeSEconfintSharpe = function(x, risk.free) {
+  Sharpe.boot = boot(x, statistic=sharpeRatio.boot, R=999, risk.free=risk.free)
+  Sharpe.hat = Sharpe.boot$t0
+  SE.Sharpe = sd(Sharpe.boot$t)
+  CI.Sharpe = boot.ci(Sharpe.boot, conf = 0.95, type="norm")$normal
+  CI.Sharpe = CI.Sharpe[-1]
+  ans = c(Sharpe.hat, SE.Sharpe, CI.Sharpe)
+  names(ans) = c("Sharpe", "SE", "LCL (0.95)", "UCL (0.95)")
+  return(ans)
+}
+set.seed(123)
+Sharpe.boot.SPYM = computeSEconfintSharpe(ret.mat[, "SPYM", drop=FALSE], risk.free=rf)
+Sharpe.boot.VEA = computeSEconfintSharpe(ret.mat[, "VEA", drop=FALSE], risk.free=rf)
+Sharpe.boot.VWO = computeSEconfintSharpe(ret.mat[, "VWO", drop=FALSE], risk.free=rf)
+Sharpe.boot.JCPB = computeSEconfintSharpe(ret.mat[, "JCPB", drop=FALSE], risk.free=rf)
+Sharpe.boot.SPSM = computeSEconfintSharpe(ret.mat[, "SPSM", drop=FALSE], risk.free=rf)
+
+Sharpe.mat = rbind(Sharpe.boot.SPYM,
+                Sharpe.boot.VEA,
+                Sharpe.boot.VWO,
+                Sharpe.boot.JCPB,
+                Sharpe.boot.SPSM)
+rownames(Sharpe.mat) = colnames(projectReturns)
+knitr::kable(round(Sharpe.mat, 4), caption = "Monthly Sharpe Ratios with Bootstrap Standard Errors and 95% Confidence Intervals")
+```
+
+The monthly Sharpe ratio table shows that SPYM has the highest Sharpe ratio, about 0.173. This means SPYM looks like the best one after considering both return and risk in this sample. VEA has the second highest Sharpe ratio. JCPB has a negative Sharpe ratio, because its average monthly return is lower than the monthly risk-free rate of 0.00333.
+
+The Sharpe ratios are not estimated very precise. The bootstrap standard errors are pretty large compared with the Sharpe ratio numbers, and all 95% confidence intervals include zero. For example, SPYM has the highest Sharpe ratio, but its confidence interval still goes from about -0.110 to 0.426. So I should be careful to say SPYM is definitely better than other ETFs only based on Sharpe ratio.
+
+Overall, SPYM looks best from the sample Sharpe ratio, but the ranking is not very certain. There is a lot of uncertainty because the sample only has 60 monthly returns, and Sharpe ratio depends on mean return, which is hard to estimate very accurately.
+
+### Annualized Return and Risk Statistics
+
+```{r, echo=FALSE}
+muhat.annual = 12*muhat.vals
+sigmahat.annual = sqrt(12)*sigmahat.vals
+rf.annual = 12*rf
+```
+
+```{r, echo=FALSE}
+annual.sharpe = (muhat.annual - rf.annual) / sigmahat.annual
+fv.5yr = (1 + muhat.annual)^5
+
+annual.stats.table = rbind(
+  Monthly_Mean = muhat.vals,
+  Monthly_SD = sigmahat.vals,
+  Annual_Mean = muhat.annual,
+  Annual_SD = sigmahat.annual,
+  Annual_Sharpe = annual.sharpe,
+  FV_5yr = fv.5yr
+)
+
+knitr::kable(round(annual.stats.table, 4),caption = "Annualized Return, Risk, Sharpe Ratio, and Five-Year Growth")
+```
+
+The annualized results show that SPYM has the highest annual average return, about 13.4%. VEA is also pretty high, about 10.1%. JCPB has the lowest annual average return, about 1.4%. This makes sense because JCPB is a bond ETF, so I would not expect it to grow as much as stock ETFs.
+
+For risk, SPSM has the highest annual standard deviation, about 19.8%. This means it is the most risky ETF in this sample. JCPB has the lowest annual standard deviation, about 6.3%, which also makes sense because it is a bond ETF. Overall, the annual return and risk numbers look reasonable. The stock ETFs have higher return and higher risk, while the bond ETF has lower return and lower risk.
+
+The annual Sharpe ratio ranking is same as the monthly Sharpe ratio ranking. SPYM still has the highest Sharpe ratio, followed by VEA, SPSM, VWO, and JCPB. JCPB has a negative Sharpe ratio because its average return is lower than the risk-free rate.
+
+The five-year future value calculation shows how much $1 would grow if each ETF earns its average annual return every year for five years. SPYM has the highest value, about $1.873. VEA is second, about $1.617. JCPB has the lowest value, about $1.069. This is similar to the equity curve result, where SPYM also had the strongest growth.
+
+### Pairwise Scatterplots and Covariance Matrix
+
+```{r, echo=FALSE}
+pairs(coredata(projectReturns), col="blue")
+```
+
+The pairwise scatterplots show that most of the ETFs move in the same direction. The stock ETFs have clear positive relationships with each other. For example, SPYM, VEA, VWO, and SPSM all tend to have higher returns at the same time and lower returns at the same time. This makes sense because they are all stock ETFs and are affected by overall equity market movements.
+
+```{r, echo=FALSE}
+cov.mat.format <- formatC(cov.mat, format = "e", digits = 2)
+
+knitr::kable(cov.mat.format, caption = "Sample Covariance Matrix of Monthly Returns")
+```
+
+The covariance matrix shows that all covariances are positive. This means the ETF returns usually move in the same direction. The stock ETFs have larger covariances with each other. For example, SPYM and SPSM have covariance around 2.09e-03, and VEA and SPSM have covariance around 1.97e-03. This is similar to the scatterplots, where the stock ETFs look like they move together.
+
+JCPB has smaller covariances with the stock ETFs, usually around 5e-04 to 6e-04. This means JCPB has a weaker linear relationship with the stock ETFs. Since JCPB does not move as closely with stock ETFs, it may help lower portfolio risk when it is added to a stock portfolio.
+
+### Correlation Matrix and Diversification
+
+```{r, echo=FALSE}
+corrplot.mixed(cor.mat, upper="ellipse")
+```
+
+The correlation matrix shows that all ETFs are positively correlated with each other. The highest correlation is between SPYM and SPSM, about 0.81. This makes sense because both are U.S. stock ETFs. SPYM and VEA are also highly correlated, around 0.79, and VEA and VWO are around 0.78. This shows that stock ETFs usually move together.
+
+The lowest correlation is between VWO and SPSM, about 0.53. JCPB also has lower correlations with some stock ETFs, especially SPSM, around 0.59. But JCPB is still positively correlated with the stock ETFs, so it does not move in totally opposite direction.
+
+Based on these correlations, diversification can reduce risk, but the benefit is limited. Since all correlations are positive and many of them are high, the ETFs still move in similar direction. Diversification among only stock ETFs can help a little, but it cannot remove most market risk. JCPB may help more than the stock ETFs because its correlations are lower, but it is still not negatively correlated with other assets.
+
+## Value-at-Risk Calculations
+
+Here, we write functions to compute VaR and extract bootstrap SEs and 95\% CIs, and we use these functions to compute the $5\%$ normal VaR estimates and their boostrap SEs and 95\% CIs. The following table summarizes the results:
+
+```{r, echo=FALSE}
+Value.at.Risk = function(x, p=0.05, w=100000, 
+                         method=c("normal", "empirical"),
+                         return.type=c("cc", "simple")) {
+	method=method[1]
+  return.type=return.type[1]
+  x = as.matrix(x)
+  if (method == "normal") {
+	  q = apply(x, 2, mean) + apply(x, 2, sd)*qnorm(p)
+  } else {    
+    q = apply(x, 2, quantile, p)
+  }
+  if (return.type == "simple") {
+    VaR = q*w
+  } else {
+	  VaR = (exp(q) - 1)*w
+  }
+	return(VaR)
+}
+
+ValueAtRisk.boot = function(x, idx, p=0.05, w=100000,
+                            method=c("normal", "empirical"),
+                            return.type=c("cc", "simple")) {
+  method = method[1]
+  return.type = return.type[1]
+  if (method == "normal") {
+	  q = mean(x[idx]) + sd(x[idx])*qnorm(p)
+  } else {
+    q = quantile(x[idx], p)
+  }
+  if (return.type == "cc") {
+	  VaR = (exp(q) - 1)*w
+  } else {
+    VaR = q*w
+  }
+	VaR
+}
+computeSEconfintVaR = function(x, p=0.05, w=100000,
+                               method=c("normal", "empirical"),
+                               return.type=c("cc", "simple")) {
+  VaR.boot = boot(x, statistic=ValueAtRisk.boot, p=p, R=999)
+  VaR.hat = VaR.boot$t0
+  SE.VaR = sd(VaR.boot$t)
+  CI.VaR = boot.ci(VaR.boot, conf = 0.95, type="norm")$normal
+  CI.VaR = CI.VaR[-1]
+  ans = c(VaR.hat, SE.VaR, CI.VaR)
+  names(ans) = c("VaR.05", "SE", "LCL (0.95)", "UCL (0.95)")
+  return(ans)
+}
+```
+
+### Normal Value-at-Risk Estimates
+
+In this part, I calculate the 1% and 5% normal VaR for each ETF based on a $100,000 investment over one month. I also use bootstrap to get the standard errors and 95% confidence intervals, so I can see how reliable the VaR estimates are.
+
+```{r, echo=FALSE}
+# Normal VaR with bootstrap SE and confidence intervals
+set.seed(123)
+
+normal.var.results <- rbind(
+  SPYM_5 = computeSEconfintVaR(ret.mat[, "SPYM", drop=FALSE], p=0.05, w=100000, method="normal", return.type="simple"),
+  VEA_5  = computeSEconfintVaR(ret.mat[, "VEA", drop=FALSE],  p=0.05, w=100000, method="normal", return.type="simple"),
+  VWO_5  = computeSEconfintVaR(ret.mat[, "VWO", drop=FALSE],  p=0.05, w=100000, method="normal", return.type="simple"),
+  JCPB_5 = computeSEconfintVaR(ret.mat[, "JCPB", drop=FALSE], p=0.05, w=100000, method="normal", return.type="simple"),
+  SPSM_5 = computeSEconfintVaR(ret.mat[, "SPSM", drop=FALSE], p=0.05, w=100000, method="normal", return.type="simple"),
+  
+  SPYM_1 = computeSEconfintVaR(ret.mat[, "SPYM", drop=FALSE], p=0.01, w=100000, method="normal", return.type="simple"),
+  VEA_1  = computeSEconfintVaR(ret.mat[, "VEA", drop=FALSE],  p=0.01, w=100000, method="normal", return.type="simple"),
+  VWO_1  = computeSEconfintVaR(ret.mat[, "VWO", drop=FALSE],  p=0.01, w=100000, method="normal", return.type="simple"),
+  JCPB_1 = computeSEconfintVaR(ret.mat[, "JCPB", drop=FALSE], p=0.01, w=100000, method="normal", return.type="simple"),
+  SPSM_1 = computeSEconfintVaR(ret.mat[, "SPSM", drop=FALSE], p=0.01, w=100000, method="normal", return.type="simple")
+)
+
+knitr::kable(round(normal.var.results, 2), caption = "Normal VaR Estimates with Bootstrap Standard Errors and 95% Confidence Intervals")
+```
+
+The normal VaR table shows the possible one-month loss for investing $100,000 in each ETF. The 1% VaR numbers are larger than the 5% VaR numbers in absolute value. This makes sense because 1% VaR is looking at a worse loss case.
+
+SPSM has the largest VaR. Its 5% VaR is about negative $8,413, and its 1% VaR is about negative $11,916. This means SPSM has the largest possible loss among the five ETFs. JCPB has the smallest VaR. Its 5% VaR is about negative $2,844, and its 1% VaR is about negative $4,043. This also makes sense because SPSM has the highest standard deviation, and JCPB has the lowest standard deviation.
+
+The bootstrap results show that the VaR estimates are not exact. The stock ETFs have larger standard errors and wider confidence intervals, so their VaR estimates are less precise. JCPB has smaller standard errors and narrower confidence intervals, so its VaR estimate is more precise. Overall, the VaR numbers are useful for comparing which ETF is more risky, but I should not treat them as exact loss amounts.
+
+The VaR values are negative because they are losses. A more negative number means a bigger possible loss. For example, SPSM’s 1% VaR of about negative $11,916 means that under the normal model, there is about 1% chance of losing more than $11,916 in one month.
+
+### Empirical Value-at-Risk
+
+In this part, I calculate VaR using the actual historical return quantiles instead of assuming a normal distribution. Then I compare the empirical VaR with the normal VaR to see whether the two methods give similar risk estimates.
+
+```{r, echo=FALSE}
+# Normal VaR without bootstrap
+normal.var.5.only <- Value.at.Risk(projectReturns,
+                                   p = 0.05,
+                                   w = 100000,
+                                   method = "normal",
+                                   return.type = "simple")
+
+normal.var.1.only <- Value.at.Risk(projectReturns,
+                                   p = 0.01,
+                                   w = 100000,
+                                   method = "normal",
+                                   return.type = "simple")
+
+# Empirical VaR
+empirical.var.5 <- Value.at.Risk(projectReturns,
+                                 p = 0.05,
+                                 w = 100000,
+                                 method = "empirical",
+                                 return.type = "simple")
+
+empirical.var.1 <- Value.at.Risk(projectReturns,
+                                 p = 0.01,
+                                 w = 100000,
+                                 method = "empirical",
+                                 return.type = "simple")
+
+# empirical minus normal
+var.compare.table <- rbind(
+  Normal_VaR_5 = normal.var.5.only,
+  Empirical_VaR_5 = empirical.var.5,
+  Difference_5 = empirical.var.5 - normal.var.5.only,
+  Normal_VaR_1 = normal.var.1.only,
+  Empirical_VaR_1 = empirical.var.1,
+  Difference_1 = empirical.var.1 - normal.var.1.only
+)
+
+knitr::kable(round(var.compare.table, 2), caption = "Comparison of Normal and Empirical VaR Estimates")
+```
+
+The empirical VaR results are based on the actual historical return quantiles. So this method does not assume the returns are normally distributed. Compared with the normal VaR results, the empirical VaR numbers are different, but the main pattern is similar. The stock ETFs still have larger downside risk than JCPB, and JCPB still has the smallest VaR.
+
+For the 5% VaR, the empirical results are close to the normal results for most ETFs. For example, SPYM’s empirical 5% VaR is about negative $5,797, while the normal 5% VaR is about negative $6,304. SPSM also has a smaller empirical 5% VaR than the normal VaR. VEA is a little more negative under the empirical method, but the difference is not very large.
+
+For the 1% VaR, the differences are larger. The biggest difference is SPSM. Its normal 1% VaR is about negative $12,688, but its empirical 1% VaR is about negative $9,083. This means the normal model gives a more conservative estimate for SPSM at the 1% level. VWO also has a clear difference between normal and empirical VaR.
+
+Overall, empirical VaR and normal VaR give similar rankings, but the exact numbers are not same. This shows that the normal distribution assumption does matter. The empirical method uses the actual worst returns in the sample, so it may fit the sample data better. But it also has a limit, because there are only 60 monthly observations.
+
+## Rolling Sample Statistics
+
+### Rolling Means, Volatilities, and Returns
+
+In this part, I compute 24-month rolling means and rolling standard deviations for each ETF, and compare them with the monthly return plots to see whether return and risk are stable over time.
+
+```{r, echo=FALSE}
+roll.muhat = rollapply(projectReturns, width=24, by=1, 
+                       by.column=TRUE, FUN=mean, 
+                       align="right")
+plot(na.omit(roll.muhat), main="24-month rolling estimates of mean", multi.panel=FALSE, lwd=2,
+col=c("black", "red", "green", "blue", "purple"), lty=c("solid", "solid", "solid", "solid", "solid"),
+major.ticks="years", grid.ticks.on="years", legend.loc = "topleft")
+
+roll.sigmahat = rollapply(projectReturns, width=24, by=1,
+                          by.column=TRUE, FUN=sd,
+                          align="right")
+
+plot(na.omit(roll.sigmahat), main="24-month rolling estimates of volatility", 
+     multi.panel=FALSE, lwd=2,
+     col=c("black", "red", "green", "blue", "purple"), 
+     lty=c("solid", "solid", "solid", "solid", "solid"),
+     major.ticks="years", grid.ticks.on="years", legend.loc="topleft")
+
+plot(projectReturns, 
+     main="Monthly Returns for All ETFs", 
+     multi.panel=FALSE, 
+     lwd=2,
+     col=c("black", "red", "green", "blue", "purple"), 
+     lty=c("solid", "solid", "solid", "solid", "solid"),
+     major.ticks="years", 
+     grid.ticks.on="years", 
+     legend.loc="topleft")
+
+```
+
+The covariance stationarity assumption does not look very reasonable for this data. The rolling mean changes a lot over time. At the beginning of the rolling window, some ETFs have low or even negative rolling means. Later, the rolling means become much higher. This means the expected returns do not look constant during the whole sample.
+
+The rolling volatility also changes over time. For most stock ETFs, volatility is higher in the earlier part and then becomes lower later. SPSM has the highest rolling volatility for most of the period, while JCPB has the lowest volatility. This makes sense because SPSM is a small-cap stock ETF and JCPB is a bond ETF. But the main point is that volatility is clearly not constant.
+
+The monthly return plot also shows some big jumps and changing volatility over time. The stock ETFs have several large positive and negative returns, especially around 2022 and the later recovery period. JCPB is more stable, but it still changes over time.
+
+Overall, I do not think covariance stationarity is a perfect assumption here. The means and volatilities move over time, so the return process does not look fully stable. But for this project, using constant means, variances, and covariances is still a useful simple assumption for portfolio calculations.
+
+### Rolling Correlation Between SPYM and JCPB
+
+In this part, I compute the 24-month rolling correlation between SPYM and JCPB to see whether the relationship between U.S. stocks and U.S. bonds stays constant over time.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+# 24-month rolling correlation between SPYM and JCPB
+roll.cor.SPYM.JCPB = rollapply(
+  projectReturns[, c("SPYM", "JCPB")],
+  width = 24,
+  by = 1,
+  FUN = function(x) cor(x[, "SPYM"], x[, "JCPB"]),
+  by.column = FALSE,
+  align = "right"
+)
+
+plot(na.omit(roll.cor.SPYM.JCPB),
+     main = "24-Month Rolling Correlation between SPYM and JCPB",
+     ylab = "Rolling Correlation",
+     lwd = 2,
+     col = "blue",
+     major.ticks = "years",
+     grid.ticks.on = "years")
+
+abline(h = 0, lty = 2)
+```
+
+The 24-month rolling correlation between SPYM and JCPB is not constant. It is high at the beginning, around 0.70 to 0.75, but it drops a lot after 2025 and falls to around 0.40 or lower by the end of the sample. This means the relationship between U.S. stocks and bonds changes over time. When the correlation is high, JCPB gives less diversification benefit. When the correlation is lower, JCPB is more useful for reducing portfolio risk. Overall, this suggests that the covariance stationarity assumption is not very strong, because the stock-bond correlation clearly changes over time.
+
+## Portfolio Theory: 5 ETFs
+
+### Equally Weighted 5-ETF Portfolio
+
+In this part, I create an equally weighted portfolio using all five ETFs and compute its monthly and annualized return, risk, and Sharpe ratio.
+
+```{r, echo=FALSE}
+equal.weights.5 = rep(1/5, 5)
+names(equal.weights.5) = colnames(projectReturns)
+
+equal.port.5 = getPortfolio(er = muhat.vals, cov.mat = cov.mat, weights = equal.weights.5)
+
+equal.port.5
+```
+```{r, echo=FALSE}
+# Annualized statistics for equally weighted portfolio
+equal.mean.monthly = equal.port.5$er
+equal.sd.monthly = equal.port.5$sd
+
+equal.mean.annual = 12 * equal.mean.monthly
+equal.sd.annual = sqrt(12) * equal.sd.monthly
+equal.sharpe.annual = (equal.mean.annual - rf.annual) / equal.sd.annual
+
+equal.port.table = matrix(c(equal.mean.monthly,
+                            equal.sd.monthly,
+                            equal.mean.annual,
+                            equal.sd.annual,
+                            equal.sharpe.annual),
+                          ncol = 1)
+
+rownames(equal.port.table) = c("Monthly Mean",
+                               "Monthly SD",
+                               "Annual Mean",
+                               "Annual SD",
+                               "Annual Sharpe Ratio")
+colnames(equal.port.table) = "Equal Weight Portfolio"
+
+knitr::kable(round(equal.port.table, 4),
+             caption = "Equally Weighted 5-ETF Portfolio Statistics")
+```
+
+The equally weighted portfolio puts 20% in each of the five ETFs. Its monthly expected return is about 0.0064, and its monthly standard deviation is about 0.0367. After annualizing, the expected return is about 7.7%, and the standard deviation is about 12.7%.
+
+Compared with the individual ETFs, this portfolio looks more balanced. It does not have the highest return, because SPYM has higher average return by itself. But its volatility is lower than the riskier stock ETFs, especially SPSM. This makes sense because the portfolio includes both stock ETFs and JCPB, the bond ETF.
+
+The annual Sharpe ratio is about 0.29. This is lower than SPYM’s Sharpe ratio, but higher than some other ETFs. Overall, the equally weighted portfolio gives more diversification than holding only one ETF. But its return is also lower because JCPB has lower average return.
+
+### Global Minimum Variance Portfolio with Short Sales
+
+In this part, I compute the global minimum variance portfolio when short sales are allowed, and examine its expected return, volatility, Sharpe ratio, and portfolio weights.
+
+```{r, echo=FALSE}
+gmin.port <- globalMin.portfolio(muhat.vals, cov.mat)
+
+# Extract GMV portfolio results
+gmin.mean.monthly = gmin.port$er
+gmin.sd.monthly = gmin.port$sd
+gmin.weights = gmin.port$weights
+
+# Annualized statistics
+gmin.mean.annual = 12 * gmin.mean.monthly
+gmin.sd.annual = sqrt(12) * gmin.sd.monthly
+gmin.sharpe.annual = (gmin.mean.annual - rf.annual) / gmin.sd.annual
+
+# Summary table
+gmin.summary.table = matrix(c(gmin.mean.monthly,
+                              gmin.sd.monthly,
+                              gmin.mean.annual,
+                              gmin.sd.annual,
+                              gmin.sharpe.annual),
+                            ncol = 1)
+
+rownames(gmin.summary.table) = c("Monthly Mean",
+                                 "Monthly SD",
+                                 "Annual Mean",
+                                 "Annual SD",
+                                 "Annual Sharpe Ratio")
+colnames(gmin.summary.table) = "GMV Portfolio"
+
+knitr::kable(round(gmin.summary.table, 4),
+             caption = "Global Minimum Variance Portfolio Statistics")
+
+gmin.weights.table = matrix(gmin.weights, ncol=1)
+rownames(gmin.weights.table) = names(gmin.weights)
+colnames(gmin.weights.table) = "Weight"
+
+knitr::kable(round(gmin.weights.table, 4), caption = "Global Minimum Variance Portfolio Weights")
+```
+
+The global minimum variance portfolio has a monthly expected return of about -0.00068 and a monthly standard deviation of about 0.0157. After annualizing, the expected return is about -0.8%, the annual standard deviation is about 5.4%, and the annual Sharpe ratio is negative at about -0.88. So even though the portfolio has low risk, its return is not attractive.
+
+There are negative weights for VEA and SPSM, which means the portfolio includes short positions. JCPB also has a weight greater than 1, so the portfolio is effectively using leverage. This would be hard to use in a retirement account because short selling and leverage are usually not allowed or practical. Another problem is that the GMV monthly expected return is lower than the risk-free rate of 0.00333. This means the portfolio takes risk but has a worse expected return than the risk-free asset.
+
+### Efficient Frontier with Short Sales
+
+In this part, I plot the efficient frontier when short sales are allowed and compare it with the individual ETFs, the risk-free asset, the equally weighted portfolio, and the global minimum variance portfolio.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+# Efficient frontier with short sales allowed
+ef.short = efficient.frontier(er = muhat.vals,
+                              cov.mat = cov.mat,
+                              alpha.min = -1,
+                              alpha.max = 2,
+                              nport = 100)
+
+plot(ef.short$sd, ef.short$er,
+     type = "l",
+     lwd = 2,
+     col = "blue",
+     xlab = "Portfolio Standard Deviation",
+     ylab = "Portfolio Expected Return",
+     main = "Efficient Frontier with Short Sales Allowed",
+     xlim = c(0, 0.08),
+     ylim = c(-0.015, 0.025))
+
+points(sigmahat.vals, muhat.vals,
+       pch = 16,
+       col = "black",
+       cex = 1.2)
+
+text(sigmahat.vals, muhat.vals,
+     labels = colnames(projectReturns),
+     pos = 4,
+     cex = 0.8)
+
+points(gmin.port$sd, gmin.port$er,
+       pch = 16,
+       col = "red",
+       cex = 1.5)
+
+text(gmin.port$sd, gmin.port$er,
+     labels = "GMV",
+     pos = 4,
+     col = "red",
+     cex = 0.8)
+
+points(equal.sd.monthly, equal.mean.monthly,
+       pch = 16,
+       col = "purple",
+       cex = 1.5)
+
+text(equal.sd.monthly, equal.mean.monthly,
+     labels = "Equal Weight",
+     pos = 4,
+     col = "purple",
+     cex = 0.8)
+
+points(0, rf,
+       pch = 16,
+       col = "green",
+       cex = 1.5)
+
+text(0, rf,
+     labels = "Rf",
+     pos = 4,
+     col = "green",
+     cex = 0.8)
+
+abline(h = 0, col = "gray")
+```
+
+The efficient frontier shows the set of portfolios with short sales allowed. The GMV is at the left side of the frontier because it has the lowest portfolio standard deviation. The risk-free asset is shown at zero standard deviation with a monthly return of 0.00333.
+
+The individual ETFs are plotted as separate points. SPYM has the highest expected return among the assets, while JCPB has the lowest volatility. The equally weighted portfolio is inside the frontier, which means it is diversified but not mean-variance efficient.
+
+### Tangency Portfolio with Short Sales
+
+In this part, I try to compute the tangency portfolio using the monthly risk-free rate of 0.00333 and explain why the calculation does not work in this case.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+rf = 0.00333
+tan.port = try(
+  tangency.portfolio(er = muhat.vals,
+                     cov.mat = cov.mat,
+                     risk.free = rf),
+  silent = TRUE)
+tan.port
+```
+
+The tangency portfolio calculation does not work. R returns an error saying that the risk-free rate is greater than the average return on the global minimum variance portfolio. This happens because the monthly risk-free rate is 0.00333, while the GMV portfolio has a monthly expected return of about -0.00068. This creates a problem for the tangency portfolio calculation. Since the risk-free asset has a better return than the minimum variance risky portfolio, the usual tangency portfolio is not well-defined in this setup. This also shows that the estimated mean returns are not very reliable for portfolio optimization in this sample.
+
+### Global Minimum Variance Portfolio without Short Sales
+
+In this part, I compute the global minimum variance portfolio when short sales are not allowed, and compare it with the short-sale global minimum variance portfolio.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+gmin.port.noshort <- globalMin.portfolio(muhat.vals, cov.mat, shorts = FALSE)
+
+gmin.noshort.mean.monthly = gmin.port.noshort$er
+gmin.noshort.sd.monthly = gmin.port.noshort$sd
+gmin.noshort.weights = gmin.port.noshort$weights
+
+gmin.noshort.mean.annual = 12 * gmin.noshort.mean.monthly
+gmin.noshort.sd.annual = sqrt(12) * gmin.noshort.sd.monthly
+gmin.noshort.sharpe.annual = (gmin.noshort.mean.annual - rf.annual) / gmin.noshort.sd.annual
+
+gmin.noshort.summary.table = matrix(c(gmin.noshort.mean.monthly,
+                                      gmin.noshort.sd.monthly,
+                                      gmin.noshort.mean.annual,
+                                      gmin.noshort.sd.annual,
+                                      gmin.noshort.sharpe.annual),
+                                    ncol = 1)
+
+rownames(gmin.noshort.summary.table) = c("Monthly Mean",
+                                         "Monthly SD",
+                                         "Annual Mean",
+                                         "Annual SD",
+                                         "Annual Sharpe Ratio")
+
+colnames(gmin.noshort.summary.table) = "No-Short GMV Portfolio"
+
+gmin.noshort.weights.table = matrix(gmin.noshort.weights, ncol = 1)
+
+knitr::kable(round(gmin.noshort.summary.table, 4), caption = "No-Short Global Minimum Variance Portfolio Statistics")
+
+rownames(gmin.noshort.weights.table) = names(gmin.noshort.weights)
+colnames(gmin.noshort.weights.table) = "Weight"
+
+knitr::kable(round(gmin.noshort.weights.table, 4), caption = "No-Short Global Minimum Variance Portfolio Weights")
+```
+
+The no-short global minimum variance portfolio puts 100% in JCPB and 0% in the other ETFs. This happens because JCPB has the lowest volatility. Since short sales are not allowed, the optimizer cannot use negative weights or leverage to reduce risk more. This portfolio has a monthly expected return around 0.001 and a monthly standard deviation around 0.018. After annualizing, the expected return is about 1.4%, the annual standard deviation is about 6.3%, and the annual Sharpe ratio is about -0.42.
+
+Compared with the monthly risk-free rate of 0.00333, this portfolio has a lower expected return. This is a problem because the portfolio still has risk, but it earns less than the risk-free asset. Compared with the GMV portfolio that allows short sales, this no-short portfolio is easier to invest in, but its volatility is a little higher. Its return is better than the short-sale GMV portfolio, but it is still not very attractive compared with the risk-free asset.
+
+### Efficient Frontier without Short Sales
+
+In this part, I plot the no-short-sales efficient frontier and compare it with the frontier that allows short sales.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+ef.short = efficient.frontier(er = muhat.vals,
+                              cov.mat = cov.mat,
+                              alpha.min = -1,
+                              alpha.max = 2,
+                              nport = 100)
+
+ef.noshort = efficient.frontier(er = muhat.vals,
+                                cov.mat = cov.mat,
+                                alpha.min = 0,
+                                alpha.max = 1,
+                                nport = 100,
+                                shorts = FALSE)
+
+plot(ef.short$sd, ef.short$er,
+     type = "l",
+     lwd = 2,
+     col = "blue",
+     xlab = "Portfolio Standard Deviation",
+     ylab = "Portfolio Expected Return",
+     main = "Efficient Frontiers With and Without Short Sales",
+     xlim = c(0, 0.08),
+     ylim = c(-0.015, 0.025))
+
+lines(ef.noshort$sd, ef.noshort$er,
+      lwd = 2,
+      col = "red")
+
+points(sigmahat.vals, muhat.vals,
+       pch = 16,
+       col = "black",
+       cex = 1.2)
+
+text(sigmahat.vals, muhat.vals,
+     labels = colnames(projectReturns),
+     pos = 4,
+     cex = 0.8)
+
+points(gmin.port$sd, gmin.port$er,
+       pch = 16,
+       col = "orange",
+       cex = 1.5)
+
+text(gmin.port$sd, gmin.port$er,
+     labels = "GMV Short",
+     pos = 4,
+     col = "orange",
+     cex = 0.8)
+
+points(gmin.port.noshort$sd, gmin.port.noshort$er,
+       pch = 16,
+       col = "darkred",
+       cex = 1.5)
+
+text(gmin.port.noshort$sd, gmin.port.noshort$er,
+     labels = "No-short GMV",
+     pos = 4,
+     col = "darkred",
+     cex = 0.8)
+
+points(equal.sd.monthly, equal.mean.monthly,
+       pch = 16,
+       col = "purple",
+       cex = 1.5)
+
+text(equal.sd.monthly, equal.mean.monthly,
+     labels = "Equal Weight",
+     pos = 4,
+     col = "purple",
+     cex = 0.8)
+
+points(0, rf,
+       pch = 16,
+       col = "green",
+       cex = 1.5)
+
+text(0, rf,
+     labels = "Rf",
+     pos = 4,
+     col = "green",
+     cex = 0.8)
+
+abline(h = 0, col = "gray")
+
+legend("topright",
+       legend = c("Short Sales Allowed", "No Short Sales"),
+       col = c("blue", "red"),
+       lwd = 2,
+       bty = "n")
+```
+
+The no-short-sale frontier is inside the frontier that allows short sales. This makes sense because the no-short frontier has more restrictions, so investors have fewer possible portfolios. The short-sale frontier gives a wider set of risk-return combinations because it allows negative weights and leverage.
+
+The no-short GMV portfolio is almost the same point as JCPB because the no-short optimizer puts 100% of the weight in JCPB. This happens because JCPB has the lowest volatility among the five ETFs. The equally weighted portfolio is inside the frontier, so it is diversified but not mean-variance efficient.
+
+### Tangency Portfolio without Short Sales
+
+In this part, I try to compute the tangency portfolio when short sales are not allowed and explain why the same risk-free rate problem still appears.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+rf = 0.00333
+
+tan.port.noshort = try(
+  tangency.portfolio(er = muhat.vals,
+                     cov.mat = cov.mat,
+                     risk.free = rf,
+                     shorts = FALSE),
+  silent = TRUE
+)
+
+tan.port.noshort
+```
+
+When I try to compute the no-short tangency portfolio, R gives an error. The error says that the risk-free rate is greater than the average return on the global minimum variance portfolio. This happens because the monthly risk-free rate is 0.00333, while the no-short GMV portfolio has a lower expected return. In my results, the no-short GMV portfolio is basically 100% JCPB, with a monthly expected return around 0.001. So the tangency portfolio is not well-defined here. The risk-free asset gives a higher expected return than the lowest-risk risky portfolio, which creates a problem for the tangency portfolio calculation.
+
+## Portfolio Theory: 4 ETFs
+
+### Equally Weighted 4-Stock Portfolio
+
+In this part, I create an equally weighted portfolio using the four stock ETFs and compute its monthly and annualized return, risk, and Sharpe ratio.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+# Use only the 4 stock ETFs
+stock.names = c("SPYM", "VEA", "VWO", "SPSM")
+
+stockReturns = projectReturns[, stock.names]
+
+muhat.vals.4 = colMeans(stockReturns)
+sd.vals.4 = apply(stockReturns, 2, sd)
+cov.mat.4 = var(stockReturns)
+
+equal.weights.4 = rep(1/4, 4)
+names(equal.weights.4) = stock.names
+
+equal.port.4 = getPortfolio(er = muhat.vals.4,
+                            cov.mat = cov.mat.4,
+                            weights = equal.weights.4)
+
+equal.mean.monthly.4 = equal.port.4$er
+equal.sd.monthly.4 = equal.port.4$sd
+
+equal.mean.annual.4 = 12 * equal.mean.monthly.4
+equal.sd.annual.4 = sqrt(12) * equal.sd.monthly.4
+equal.sharpe.annual.4 = (equal.mean.annual.4 - rf.annual) / equal.sd.annual.4
+
+equal.port.table.4 = matrix(c(equal.mean.monthly.4,
+                              equal.sd.monthly.4,
+                              equal.mean.annual.4,
+                              equal.sd.annual.4,
+                              equal.sharpe.annual.4),
+                            ncol = 1)
+
+rownames(equal.port.table.4) = c("Monthly Mean",
+                                 "Monthly SD",
+                                 "Annual Mean",
+                                 "Annual SD",
+                                 "Annual Sharpe Ratio")
+
+colnames(equal.port.table.4) = "4-Stock Equal Weight Portfolio"
+
+knitr::kable(round(equal.port.table.4, 5),
+             caption = "Equally Weighted 4-Stock ETF Portfolio Statistics")
+```
+
+The equally weighted 4-stock ETF portfolio invests 25% in each stock ETF. Its annual expected return is about 9.3%, annual standard deviation is about 14.7%, and annual Sharpe ratio is about 0.359. Compared with the 5-ETF equally weighted portfolio, this stock-only portfolio has a higher expected return and a higher Sharpe ratio, but it also has higher volatility because JCPB is removed. Compared with the individual stock ETFs, it is more diversified and gives a more balanced stock-only portfolio.
+
+### Global Minimum Variance Portfolio with Short Sales
+
+In this part, I compute the global minimum variance portfolio using only the four stock ETFs when short sales are allowed.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+gmin.port.4 <- globalMin.portfolio(muhat.vals.4, cov.mat.4)
+
+gmin.mean.monthly.4 = gmin.port.4$er
+gmin.sd.monthly.4 = gmin.port.4$sd
+gmin.weights.4 = gmin.port.4$weights
+
+gmin.mean.annual.4 = 12 * gmin.mean.monthly.4
+gmin.sd.annual.4 = sqrt(12) * gmin.sd.monthly.4
+gmin.sharpe.annual.4 = (gmin.mean.annual.4 - rf.annual) / gmin.sd.annual.4
+
+gmin.summary.table.4 = matrix(c(gmin.mean.monthly.4,
+                                gmin.sd.monthly.4,
+                                gmin.mean.annual.4,
+                                gmin.sd.annual.4,
+                                gmin.sharpe.annual.4),
+                              ncol = 1)
+
+rownames(gmin.summary.table.4) = c("Monthly Mean",
+                                   "Monthly SD",
+                                   "Annual Mean",
+                                   "Annual SD",
+                                   "Annual Sharpe Ratio")
+
+colnames(gmin.summary.table.4) = "4-Stock GMV Portfolio"
+
+knitr::kable(round(gmin.summary.table.4, 4), caption = "4-Stock Global Minimum Variance Portfolio Statistics")
+
+gmin.weights.table.4 = matrix(gmin.weights.4, ncol=1)
+
+rownames(gmin.weights.table.4) = names(gmin.weights.4)
+colnames(gmin.weights.table.4) = "Weight"
+
+knitr::kable(round(gmin.weights.table.4, 4), caption = "4-Stock Global Minimum Variance Portfolio Weights")
+```
+
+The 4-stock GMV portfolio has a monthly expected return of about 0.008 and a monthly standard deviation of about 0.039. After annualizing, the expected return is about 9.7%, the annual standard deviation is about 13.6%, and the annual Sharpe ratio is about 0.418.
+
+There are negative weights in this portfolio. VEA has a weight of about -0.049, and SPSM has a weight of about -0.076. These negative weights mean short positions. Since these are ETFs, it may be possible to short them in a regular brokerage account, but it depends on account restrictions and borrowing costs.
+
+The monthly expected return of the GMV portfolio is about 0.008, which is higher than the risk-free rate of 0.00333, so the same problem from the 5-ETF GMV portfolio does not appear here. Compared with the individual stock ETFs, this portfolio has lower volatility than most of them and a better Sharpe ratio than the equal-weighted 4-stock portfolio.
+
+
+### Efficient Frontier with Short Sales
+
+In this part, I plot the efficient frontier for the four stock ETFs when short sales are allowed, and compare it with the individual ETFs, the risk-free asset, the equally weighted portfolio, and the GMV portfolio.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+ef.short.4 = efficient.frontier(er = muhat.vals.4,
+                                cov.mat = cov.mat.4,
+                                alpha.min = -1,
+                                alpha.max = 2,
+                                nport = 100)
+
+plot(ef.short.4$sd, ef.short.4$er,
+     type = "l",
+     lwd = 2,
+     col = "blue",
+     xlab = "Portfolio Standard Deviation",
+     ylab = "Portfolio Expected Return",
+     main = "Efficient Frontier with Short Sales Allowed: 4 Stock ETFs",
+     xlim = c(0, 0.08),
+     ylim = c(-0.005, 0.025))
+
+points(sd.vals.4, muhat.vals.4,
+       pch = 16,
+       col = "black",
+       cex = 1.2)
+
+text(sd.vals.4, muhat.vals.4,
+     labels = stock.names,
+     pos = c(3, 4, 1, 4),
+     cex = 0.8)
+
+points(gmin.port.4$sd, gmin.port.4$er,
+       pch = 16,
+       col = "red",
+       cex = 1.5)
+
+text(gmin.port.4$sd, gmin.port.4$er,
+     labels = "GMV",
+     pos = 2,
+     col = "red",
+     cex = 0.8)
+
+points(equal.sd.monthly.4, equal.mean.monthly.4,
+       pch = 16,
+       col = "purple",
+       cex = 1.5)
+
+text(equal.sd.monthly.4, equal.mean.monthly.4,
+     labels = "Equal Weight",
+     pos = 4,
+     col = "purple",
+     cex = 0.8)
+
+points(0, rf,
+       pch = 16,
+       col = "green",
+       cex = 1.5)
+
+text(0, rf,
+     labels = "Rf",
+     pos = 4,
+     col = "green",
+     cex = 0.8)
+
+abline(h = 0, col = "gray")
+```
+
+The efficient frontier shows the risk-return tradeoff for the four stock ETFs when short sales are allowed. The GMV portfolio is the lowest-risk portfolio on the frontier. The equally weighted portfolio is close to the frontier, but it is not exactly the minimum variance portfolio.Compared with the 5-ETF case, this frontier has higher risk because JCPB is removed. The risk-free asset is shown at zero standard deviation with a monthly return of 0.00333. Since short sales are allowed, some portfolios on the frontier may include negative weights.
+
+### Tangency Portfolio with Short Sales
+
+In this part, I compute the tangency portfolio for the four stock ETFs using the monthly risk-free rate of 0.00333, and check whether the portfolio uses negative weights.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+rf = 0.00333
+
+tan.port.4 = tangency.portfolio(er = muhat.vals.4,
+                                cov.mat = cov.mat.4,
+                                risk.free = rf)
+tan.mean.monthly.4 = tan.port.4$er
+tan.sd.monthly.4 = tan.port.4$sd
+tan.weights.4 = tan.port.4$weights
+
+tan.mean.annual.4 = 12 * tan.mean.monthly.4
+tan.sd.annual.4 = sqrt(12) * tan.sd.monthly.4
+tan.sharpe.annual.4 = (tan.mean.annual.4 - rf.annual) / tan.sd.annual.4
+
+tan.summary.table.4 = matrix(c(tan.mean.monthly.4,
+                               tan.sd.monthly.4,
+                               tan.mean.annual.4,
+                               tan.sd.annual.4,
+                               tan.sharpe.annual.4),
+                             ncol = 1)
+
+rownames(tan.summary.table.4) = c("Monthly Mean",
+                                  "Monthly SD",
+                                  "Annual Mean",
+                                  "Annual SD",
+                                  "Annual Sharpe Ratio")
+
+colnames(tan.summary.table.4) = "4-Stock Tangency Portfolio"
+
+knitr::kable(round(tan.summary.table.4, 4), caption = "4-Stock Tangency Portfolio Statistics")
+
+tan.weights.table.4 = matrix(tan.weights.4, ncol=1)
+
+rownames(tan.weights.table.4) = names(tan.weights.4)
+colnames(tan.weights.table.4) = "Weight"
+
+knitr::kable(round(tan.weights.table.4, 4), caption = "4-Stock Tangency Portfolio Weights")
+```
+
+The 4-stock tangency portfolio has a monthly expected return of about 0.023 and a monthly standard deviation of about 0.080. After annualizing, both the expected return and standard deviation are about 27.8%. The annual Sharpe ratio is about 0.855, which is higher than the equal-weighted and GMV stock portfolios. There are negative weights in the tangency portfolio. VWO has a weight of about -1.073, and SPSM has a weight of about -1.586. These negative weights mean short positions. SPYM and VEA have weights greater than 1 or positive large weights, so the portfolio is also leveraged. Since these are ETFs, it may be possible to short them in a regular brokerage account, but it depends on account rules, borrowing costs, and margin requirements. So the tangency portfolio is mathematically possible, but it may be hard to implement in practice.
+
+### Global Minimum Variance Portfolio without Short Sales
+
+In this part, I compute the global minimum variance portfolio when short sales are not allowed, and compare it with the GMV portfolio that allows short sales.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+gmin.port.noshort.4 = globalMin.portfolio(muhat.vals.4, cov.mat.4, shorts = FALSE)
+
+gmin.noshort.mean.monthly.4 = gmin.port.noshort.4$er
+gmin.noshort.sd.monthly.4 = gmin.port.noshort.4$sd
+gmin.noshort.weights.4 = gmin.port.noshort.4$weights
+
+gmin.noshort.mean.annual.4 = 12 * gmin.noshort.mean.monthly.4
+gmin.noshort.sd.annual.4 = sqrt(12) * gmin.noshort.sd.monthly.4
+gmin.noshort.sharpe.annual.4 = (gmin.noshort.mean.annual.4 - rf.annual) / gmin.noshort.sd.annual.4
+
+gmin.noshort.summary.table.4 = matrix(c(gmin.noshort.mean.monthly.4,
+                                        gmin.noshort.sd.monthly.4,
+                                        gmin.noshort.mean.annual.4,
+                                        gmin.noshort.sd.annual.4,
+                                        gmin.noshort.sharpe.annual.4),
+                                      ncol = 1)
+
+rownames(gmin.noshort.summary.table.4) = c("Monthly Mean",
+                                           "Monthly SD",
+                                           "Annual Mean",
+                                           "Annual SD",
+                                           "Annual Sharpe Ratio")
+
+colnames(gmin.noshort.summary.table.4) = "4-Stock No-Short GMV Portfolio"
+
+knitr::kable(round(gmin.noshort.summary.table.4, 4), caption = "4-Stock No-Short Global Minimum Variance Portfolio Statistics")
+
+gmin.noshort.weights.table.4 = matrix(gmin.noshort.weights.4, ncol = 1)
+
+rownames(gmin.noshort.weights.table.4) = names(gmin.noshort.weights.4)
+colnames(gmin.noshort.weights.table.4) = "Weight"
+
+knitr::kable(round(gmin.noshort.weights.table.4, 4), caption = "4-Stock No-Short Global Minimum Variance Portfolio Weights")
+```
+
+The 4-stock no-short GMV portfolio puts about 43.7% in SPYM and 56.3% in VWO, and it puts zero weight in VEA and SPSM. This means that when short selling is not allowed, the portfolio only uses SPYM and VWO to get the lowest risk. The monthly expected return is about 0.008, which is higher than the monthly risk-free rate of 0.00333. So I do not see the same problem as before, where the GMV portfolio had a lower return than the risk-free asset. After annualizing, the expected return is about 9.3%, the annual standard deviation is about 13.7$, and the annual Sharpe ratio is about 0.387. Compared with the GMV portfolio that allows short sales, this one is easier to invest in because all the weights are positive or zero. But it has a little higher volatility and a slightly lower Sharpe ratio.
+
+### Efficient Frontier without Short Sales
+
+In this part, I plot the no-short-sales efficient frontier and compare it with the frontier that allows short sales.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+ef.short.4 = efficient.frontier(er = muhat.vals.4,
+                                cov.mat = cov.mat.4,
+                                alpha.min = -1,
+                                alpha.max = 2,
+                                nport = 100)
+
+ef.noshort.4 = efficient.frontier(er = muhat.vals.4,
+                                  cov.mat = cov.mat.4,
+                                  alpha.min = 0,
+                                  alpha.max = 1,
+                                  nport = 100,
+                                  shorts = FALSE)
+
+plot(ef.short.4$sd, ef.short.4$er,
+     type = "l",
+     lwd = 2,
+     col = "blue",
+     xlab = "Portfolio Standard Deviation",
+     ylab = "Portfolio Expected Return",
+     main = "Efficient Frontiers With and Without Short Sales: 4 Stock ETFs",
+     xlim = c(0, 0.08),
+     ylim = c(-0.005, 0.025))
+
+lines(ef.noshort.4$sd, ef.noshort.4$er,
+      lwd = 2,
+      col = "red")
+
+points(sd.vals.4, muhat.vals.4,
+       pch = 16,
+       col = "black",
+       cex = 1.2)
+
+text(sd.vals.4, muhat.vals.4,
+     labels = stock.names,
+     pos = c(3, 4, 1, 4),
+     cex = 0.8)
+
+# Add GMV portfolio with short sales allowed
+points(gmin.port.4$sd, gmin.port.4$er,
+       pch = 16,
+       col = "orange",
+       cex = 1.5)
+
+text(gmin.port.4$sd, gmin.port.4$er,
+     labels = "GMV Short",
+     pos = 2,
+     col = "orange",
+     cex = 0.8)
+
+# Add no-short GMV portfolio
+points(gmin.port.noshort.4$sd, gmin.port.noshort.4$er,
+       pch = 16,
+       col = "darkred",
+       cex = 1.5)
+
+text(gmin.port.noshort.4$sd, gmin.port.noshort.4$er,
+     labels = "No-short GMV",
+     pos = 4,
+     col = "darkred",
+     cex = 0.8)
+
+points(equal.sd.monthly.4, equal.mean.monthly.4,
+       pch = 16,
+       col = "purple",
+       cex = 1.5)
+
+text(equal.sd.monthly.4, equal.mean.monthly.4,
+     labels = "Equal Weight",
+     pos = 4,
+     col = "purple",
+     cex = 0.8)
+
+points(0, rf,
+       pch = 16,
+       col = "green",
+       cex = 1.5)
+
+text(0, rf,
+     labels = "Rf",
+     pos = 4,
+     col = "green",
+     cex = 0.8)
+
+abline(h = 0, col = "gray")
+
+legend("topright",
+       legend = c("Short Sales Allowed", "No Short Sales"),
+       col = c("blue", "red"),
+       lwd = 2,
+       bty = "n")
+```
+
+The no-short-sales frontier is inside the frontier that allows short sales. This makes sense because the no-short frontier has more restrictions. Since investors cannot use negative weights, they have fewer portfolio choices. The short-sales frontier gives better risk-return combinations because it allows short positions and leverage. However, those portfolios may be harder to invest in. The no-short frontier is more realistic, but it is less flexible.
+
+For the 4 stock ETFs, the no-short frontier is close to the short-sales frontier, but it is still slightly inside it. This shows that allowing short sales improves the mathematical frontier, but the improvement is not huge in this sample.
+
+### Tangency Portfolio without Short Sales and Risk-Free Asset
+
+In this part, I compute the no-short tangency portfolio for the four stock ETFs, annualize its return and risk statistics, and then plot the no-short efficient frontier together with the risk-free asset and the no-short tangency portfolio.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+rf = 0.00333
+
+tan.port.noshort.4 = tangency.portfolio(er = muhat.vals.4,
+                                        cov.mat = cov.mat.4,
+                                        risk.free = rf,
+                                        shorts = FALSE)
+
+tan.noshort.mean.monthly.4 = tan.port.noshort.4$er
+tan.noshort.sd.monthly.4 = tan.port.noshort.4$sd
+tan.noshort.weights.4 = tan.port.noshort.4$weights
+
+tan.noshort.mean.annual.4 = 12 * tan.noshort.mean.monthly.4
+tan.noshort.sd.annual.4 = sqrt(12) * tan.noshort.sd.monthly.4
+tan.noshort.sharpe.annual.4 = (tan.noshort.mean.annual.4 - rf.annual) / tan.noshort.sd.annual.4
+
+tan.noshort.summary.table.4 = matrix(c(tan.noshort.mean.monthly.4,
+                                       tan.noshort.sd.monthly.4,
+                                       tan.noshort.mean.annual.4,
+                                       tan.noshort.sd.annual.4,
+                                       tan.noshort.sharpe.annual.4),
+                                     ncol = 1)
+
+rownames(tan.noshort.summary.table.4) = c("Monthly Mean",
+                                          "Monthly SD",
+                                          "Annual Mean",
+                                          "Annual SD",
+                                          "Annual Sharpe Ratio")
+
+colnames(tan.noshort.summary.table.4) = "4-Stock No-Short Tangency Portfolio"
+
+knitr::kable(round(tan.noshort.summary.table.4, 4), caption = "4-Stock No-Short Tangency Portfolio Statistics")
+
+tan.noshort.weights.table.4 = matrix(tan.noshort.weights.4, ncol = 1)
+
+rownames(tan.noshort.weights.table.4) = names(tan.noshort.weights.4)
+colnames(tan.noshort.weights.table.4) = "Weight"
+
+knitr::kable(round(tan.noshort.weights.table.4, 4), caption = "4-Stock No-Short Tangency Portfolio Weights")
+```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+ef.noshort.4 = efficient.frontier(er = muhat.vals.4,
+                                  cov.mat = cov.mat.4,
+                                  alpha.min = 0,
+                                  alpha.max = 1,
+                                  nport = 100,
+                                  shorts = FALSE)
+
+cal.slope.noshort.4 = (tan.noshort.mean.monthly.4 - rf) / tan.noshort.sd.monthly.4
+
+x.cal = seq(0, 0.08, length.out = 100)
+y.cal = rf + cal.slope.noshort.4 * x.cal
+
+plot(ef.noshort.4$sd, ef.noshort.4$er,
+     type = "l",
+     lwd = 2,
+     col = "red",
+     xlab = "Portfolio Standard Deviation",
+     ylab = "Portfolio Expected Return",
+     main = "No-Short Frontier and Tangency Portfolio: 4 Stock ETFs",
+     xlim = c(0, 0.08),
+     ylim = c(0, 0.025))
+
+lines(x.cal, y.cal,
+      lwd = 2,
+      col = "blue",
+      lty = 2)
+
+points(sd.vals.4, muhat.vals.4,
+       pch = 16,
+       col = "black",
+       cex = 1.2)
+
+text(sd.vals.4, muhat.vals.4,
+     labels = stock.names,
+     pos = c(3, 4, 1, 4),
+     cex = 0.8)
+
+points(gmin.port.noshort.4$sd, gmin.port.noshort.4$er,
+       pch = 16,
+       col = "orange",
+       cex = 1.5)
+
+text(gmin.port.noshort.4$sd, gmin.port.noshort.4$er,
+     labels = "No-short GMV",
+     pos = 2,
+     col = "orange",
+     cex = 0.8)
+
+points(tan.noshort.sd.monthly.4, tan.noshort.mean.monthly.4,
+       pch = 16,
+       col = "purple",
+       cex = 1.5)
+
+text(tan.noshort.sd.monthly.4, tan.noshort.mean.monthly.4,
+     labels = "No-short Tangency",
+     pos = 4,
+     col = "purple",
+     cex = 0.8)
+
+points(0, rf,
+       pch = 16,
+       col = "green",
+       cex = 1.5)
+
+text(0, rf,
+     labels = "Rf",
+     pos = 4,
+     col = "green",
+     cex = 0.8)
+
+abline(h = 0, col = "gray")
+
+legend("topright",
+       legend = c("No-Short Frontier", "T-Bill + Tangency Portfolios"),
+       col = c("red", "blue"),
+       lwd = 2,
+       lty = c(1, 2),
+       bty = "n")
+```
+
+The no-short tangency portfolio puts 100% in SPYM and 0% in the other three stock ETFs. This means that when short sales are not allowed, SPYM gives the best risk-adjusted return among the available stock ETFs. The portfolio has an annual expected return of about 13.4%, annual standard deviation of about 15.6%, and annual Sharpe ratio of about 0.600. Since all weights are nonnegative, this portfolio is much easier to invest in than the tangency portfolio that allows short sales.
+
+Compared with the tangency portfolio with short sales, the no-short tangency portfolio is less aggressive. The short-sales tangency portfolio had large positive weights in SPYM and VEA and negative weights in VWO and SPSM, so it used leverage and short positions. That portfolio had a higher Sharpe ratio, but it would be harder to implement in real life. The no-short tangency portfolio has a lower Sharpe ratio, but it is more practical.
+
+### Value-at-Risk for No-Short Portfolios
+
+In this part, I compute the 1% and 5% normal VaR for the equally weighted, no-short GMV, and no-short tangency portfolios, and compare these VaR values with the VaR values of the individual ETFs.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+w = 100000
+
+ret.equal.4 = stockReturns%*% equal.weights.4
+ret.gmv.noshort.4 = stockReturns%*% gmin.noshort.weights.4
+ret.tan.noshort.4 = stockReturns%*% tan.noshort.weights.4
+
+colnames(ret.equal.4) = "Equal Weight"
+colnames(ret.gmv.noshort.4) = "No-Short GMV"
+colnames(ret.tan.noshort.4) = "No-Short Tangency"
+
+portfolioReturns.4 = cbind(ret.equal.4,
+                           ret.gmv.noshort.4,
+                           ret.tan.noshort.4)
+
+normalVaR = function(x, p=0.05, w=100000) {
+  mu = mean(x)
+  sig = sd(x)
+  q = mu + sig * qnorm(p)
+  VaR = q * w
+  return(VaR)
+}
+
+normalVaR.boot = function(x, idx, p=0.05, w=100000) {
+  normalVaR(x[idx], p=p, w=w)
+}
+
+computeVaRbootSE = function(x, p=0.05, w=100000) {
+  VaR.boot = boot(x, statistic=normalVaR.boot, R=999, p=p, w=w)
+  VaR.hat = VaR.boot$t0
+  SE.VaR = sd(VaR.boot$t)
+  
+  ans = c(VaR.hat, SE.VaR)
+  names(ans) = c("VaR", "SE")
+  return(ans)
+}
+
+set.seed(123)
+
+VaR.port.5 = apply(portfolioReturns.4, 2, computeVaRbootSE, p=0.05, w=w)
+VaR.port.1 = apply(portfolioReturns.4, 2, computeVaRbootSE, p=0.01, w=w)
+
+VaR.port.table = rbind(VaR_5 = VaR.port.5["VaR", ],
+                       SE_5 = VaR.port.5["SE", ],
+                       VaR_1 = VaR.port.1["VaR", ],
+                       SE_1 = VaR.port.1["SE", ])
+
+knitr::kable(round(VaR.port.table, 0), caption = "Normal VaR Estimates and Bootstrap SEs for 4-Stock No-Short Portfolios")
+
+```
+
+The VaR results show the possible one-month downside risk for a $100,000 investment. Among the three no-short portfolios, the no-short GMV portfolio has the smallest VaR. Its 5% VaR is about $5,714 and its 1% VaR is about $8,402. This makes sense because the GMV portfolio is designed to minimize risk.
+
+The no-short tangency portfolio has the largest VaR among the three portfolios. Its 5% VaR is about $6,304 and its 1% VaR is about $9,378. This is also expected because the no-short tangency portfolio is 100% SPYM, so its VaR is basically the same as SPYM.
+
+Compared with the individual assets, the diversified portfolios generally have lower VaR than the riskier ETFs, especially SPSM. The bootstrap SEs are around $800 to $1,100, so the VaR estimates have some uncertainty, but the ranking still makes sense.
+
+## Risk Budgeting
+
+### Volatility Risk Report for the Equally Weighted 4-Stock Portfolio
+
+In this part, I create a volatility risk report for the equally weighted four-stock ETF portfolio based on a $100,000 investment. The report shows the dollar investment, portfolio weight, marginal contribution to risk, total contribution to risk,%age contribution to risk, correlation with the portfolio, and beta with respect to the portfolio.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+riskReport = function(W0, er, cov.mat, weights, type=c("vol", "VaR")) {
+  
+  d = weights * W0
+  sig.vec = sqrt(diag(cov.mat))
+  mu.p = as.numeric(crossprod(er, weights))
+  sig.p = as.numeric(sqrt(t(weights)%*% cov.mat%*% weights))
+  
+  MCR.vol = as.vector((cov.mat%*% weights) / sig.p)
+  CR.vol = weights * MCR.vol
+  PCR.vol = CR.vol / sig.p
+  
+  rho.p = MCR.vol / sig.vec
+  beta.p = MCR.vol / sig.p
+  
+  rpt = cbind(d, weights, sig.vec, MCR.vol, CR.vol, PCR.vol, rho.p, beta.p)
+  
+  port = c(W0, 1, NA, NA, sum(CR.vol), sum(PCR.vol), 1, 1)
+  
+  rownames(rpt) = names(weights)
+  colnames(rpt) = c("Dollar", "Weight", "Vol", "MCR", "CR", "PCR", "Rho.p", "Beta.p")
+  
+  ans = rbind(rpt, Portfolio=port)
+  return(ans)
+}
+
+W0 = 100000
+
+risk.report.equal.4 = riskReport(W0 = W0,
+                                 er = muhat.vals.4,
+                                 cov.mat = cov.mat.4,
+                                 weights = equal.weights.4,
+                                 type = "vol")
+
+knitr::kable(round(risk.report.equal.4, 4), caption = "Volatility Risk Report for Equally Weighted 4-Stock ETF Portfolio")
+```
+
+The equally weighted portfolio invests $25,000 in each of the four stock ETFs, so the asset allocation is equal at 25% each. However, the risk contribution is not exactly equal. From the PCR column, SPSM contributes the most to portfolio risk, about 30.0%. VWO contributes the least, about 20.4% SPYM and VEA are closer to 25%, with SPYM at 24.2% and VEA at 25.4%
+
+So the risk attribution does not fully match the asset allocation. Even though each ETF has the same weight, they do not contribute the same amount of risk because they have different volatilities and different correlations with the portfolio. SPSM has the highest volatility and beta with respect to the portfolio, so it contributes the most risk.
+
+## Asset Allocation
+
+### Target Return Portfolio Using Only 4 Stock ETFs
+
+In this part, I find the efficient portfolio that reaches a target monthly expected return of 1% using only the four stock ETFs and no short sales.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+target.return = 0.01
+
+target.port.4 = efficient.portfolio(er = muhat.vals.4,
+                                    cov.mat = cov.mat.4,
+                                    target.return = target.return,
+                                    shorts = FALSE)
+
+target.mean.monthly.4 = target.port.4$er
+target.sd.monthly.4 = target.port.4$sd
+target.weights.4 = target.port.4$weights
+
+W0 = 100000
+target.dollars.4 = W0 * target.weights.4
+
+target.port.table.4 = data.frame(
+  Weight = target.weights.4,
+  Dollars_Invested = target.dollars.4
+)
+
+knitr::kable(round(target.port.table.4, 4), caption = "Efficient Portfolio with Target Monthly Return of 1%")
+
+target.summary.4 = matrix(c(target.mean.monthly.4,
+                            target.sd.monthly.4),
+                          ncol = 1)
+
+rownames(target.summary.4) = c("Monthly Expected Return",
+                              "Monthly SD")
+
+colnames(target.summary.4) = "Target Return Portfolio"
+
+knitr::kable(round(target.summary.4, 4), caption = "Target Return Portfolio Summary")
+```
+
+The efficient portfolio that targets a monthly expected return of 1% invests mostly in SPYM and some in VWO. Specifically, it puts about 81.0% in SPYM and 19.0% in VWO, with 0% in VEA and SPSM. For a $100,000 investment, this means about $81,004 in SPYM and $18,996 in VWO.
+
+The portfolio reaches the target monthly expected return of 0.010, and its monthly standard deviation is about 0.042. Since short sales are not allowed, all weights are nonnegative. This portfolio is another corner-type solution because it only uses two of the four ETFs.
+
+### Target Return Portfolio Using 4 Stock ETFs and the Risk-Free Asset
+
+In this part, I find the efficient portfolio that reaches the same 1% monthly target return, but now I also allow investment in the risk-free asset.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+target.return = 0.01
+rf = 0.00333
+W0 = 100000
+
+y.tan = (target.return - rf) / (tan.noshort.mean.monthly.4 - rf)
+w.rf = 1 - y.tan
+target.with.rf.weights.4 = y.tan * tan.noshort.weights.4
+target.with.rf.all.weights = c(target.with.rf.weights.4, Risk_Free = w.rf)
+target.with.rf.dollars = W0 * target.with.rf.all.weights
+
+target.with.rf.mean = target.return
+target.with.rf.sd = y.tan * tan.noshort.sd.monthly.4
+
+target.with.rf.table = data.frame(
+  Weight = target.with.rf.all.weights,
+  Dollars_Invested = target.with.rf.dollars
+)
+
+knitr::kable(round(target.with.rf.table, 4), caption = "Efficient Portfolio with Target Monthly Return of 1% Using Risk-Free Asset")
+
+target.with.rf.summary = matrix(c(target.with.rf.mean,
+                                  target.with.rf.sd),
+                                ncol = 1)
+
+rownames(target.with.rf.summary) = c("Monthly Expected Return",
+                                     "Monthly SD")
+
+colnames(target.with.rf.summary) = "Target Return Portfolio with Risk-Free Asset"
+
+knitr::kable(round(target.with.rf.summary, 4), caption = "Target Return Portfolio with Risk-Free Asset Summary")
+```
+
+The efficient portfolio using the 4 ETFs and the risk-free asset reaches the same target monthly return of 1%. It invests about 85.3% in SPYM and 14.7% in the risk-free asset, with 0% in VEA, VWO, and SPSM. For a $100,000 investment, this means about $85,310 in SPYM and $14,690 in the risk-free asset. The monthly standard deviation is about 0.038, which is lower than the previous portfolio’s monthly SD of about 0.042. This makes sense because the risk-free asset has no volatility, so adding it helps reduce risk.
+
+Compared with the portfolio from the previous question, this portfolio is simpler and safer. The previous portfolio used SPYM and VWO, while this one only uses SPYM plus the risk-free asset. Both reach the 1% monthly target return, but the portfolio with the risk-free asset has lower risk.
+
+### Feasibility of a 1.5% Monthly Target Return
+
+In this part, I check whether it is possible to reach a higher target monthly expected return of 1.5% using only the four stock ETFs with no short sales.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+target.return.high = 0.015
+
+max.return.4 = max(muhat.vals.4)
+
+c(Target_Return = target.return.high,
+  Max_ETF_Return = max.return.4,
+  Possible = target.return.high <= max.return.4)
+```
+
+The target monthly expected return of 1.5% is not possible using only the four stock ETFs with no short sales. The highest monthly expected return among the four ETFs is SPYM, about 1.11% per month. Since the target return is 1.5% per month, it is higher than the return of any available ETF.
+
+Because short sales are not allowed, the portfolio return can only be a weighted average of the four ETF returns. A weighted average cannot be higher than the highest individual ETF return. Therefore, no no-short portfolio using only these four ETFs can achieve a 1.5% monthly expected return.
